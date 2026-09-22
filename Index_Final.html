@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Ghigliottina della Gary</title>
+    <!-- Importazione dei font da Google Fonts -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0b0c10;
+            --bg-secondary: #1f2833;
+            --accent-neon: #00f2fe;
+            --accent-gold: #f4d03f;
+            --accent-coral: #ff5733;
+            --accent-green: #2ecc71;
+            --accent-pink: #ff007f;
+            --text-main: #c5c6c7;
+        }
+
+        body { 
+            font-family: 'Poppins', 'Segoe UI', sans-serif; 
+            text-align: center; 
+            background: linear-gradient(135deg, #0d0614, #040208); 
+            color: white; 
+            padding: 15px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container { 
+            width: 100%;
+            max-width: 650px; 
+            background: rgba(15, 10, 25, 0.85); 
+            padding: 30px 20px; 
+            border-radius: 24px; 
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.2), 0 0 60px rgba(0, 242, 254, 0.1); 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 0, 127, 0.25);
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .neon-title-container {
+            width: 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 25px;
+        }
+
+        h1 { 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem; 
+            line-height: 1.3;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 
+                0 0 4px #fff,
+                0 0 8px #fff,
+                0 0 15px var(--accent-pink),
+                0 0 30px var(--accent-pink),
+                0 0 50px var(--accent-pink);
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            word-wrap: break-word; 
+            animation: flicker 2.5s infinite alternate;
+        }
+
+        @media (min-width: 480px) {
+            h1 { font-size: 2.3rem; letter-spacing: 2px; }
+        }
+
+        .setup-screen, .game-screen { display: none; }
+        .active { display: block !important; }
+        
+        .form-group { margin: 16px 0; text-align: left; }
+        .row-coppia { display: flex; gap: 10px; margin-bottom: 8px; }
+        .row-coppia input { width: 50%; }
+        
+        label { display: block; font-size: 12px; margin-bottom: 6px; color: var(--accent-neon); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+        
+        input { 
+            width: 100%; 
+            padding: 12px 14px; 
+            font-size: 14px; 
+            border-radius: 10px; 
+            border: 2px solid #2d1b3d; 
+            background: #09050f; 
+            color: white; 
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: var(--accent-neon);
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .btn-action { 
+            width: 100%; 
+            padding: 16px; 
+            font-size: 18px; 
+            background: linear-gradient(135deg, var(--accent-pink), #ff0055); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            margin-top: 25px; 
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            display: block !important; 
+            clear: both;
+        }
+        .btn-action:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
+            background: linear-gradient(135deg, #ff00aa, var(--accent-pink));
+        }
+
+        .stats { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 25px; 
+            background: #09050f; 
+            padding: 15px 20px; 
+            border-radius: 16px; 
+            border: 1px solid rgba(255, 0, 127, 0.2);
+        }
+        
+        .stat-box { text-align: left; }
+        .stat-label { font-size: 11px; text-transform: uppercase; color: #887a95; font-weight: bold; letter-spacing: 0.5px; }
+        .stat-value { font-size: 22px; font-weight: 800; }
+        
+        .timer-val { color: var(--accent-coral); text-shadow: 0 0 10px rgba(255,87,51,0.3); }
+        .premi-val { color: var(--accent-green); text-shadow: 0 0 10px rgba(46,204,113,0.3); }
+        
+        .scelta-container { 
+            background: #12091f; 
+            padding: 20px; 
+            border-radius: 18px; 
+            margin-bottom: 25px; 
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+        .scelta-container h3 { margin-top: 0; color: #fff; font-size: 1.1rem; }
+        .opzioni-flessibili { display: flex; gap: 16px; justify-content: center; margin-top: 15px; }
+        
+        .btn-scelta { 
+            background: linear-gradient(135deg, #180930, #0a0314); 
+            color: white; 
+            padding: 18px; 
+            font-size: 16px; 
+            border-radius: 14px; 
+            border: 2px solid #3d1554; 
+            cursor: pointer; 
+            width: 50%; 
+            font-weight: 700; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+        }
+        .btn-scelta:hover { 
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            border-color: var(--accent-neon);
+            color: #05020a;
+            transform: scale(1.04);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+        }
+.indizi-tabellone { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin: 25px 0; 
+            min-height: 180px; 
+            justify-content: center; 
+        }
+        .indizio-scelto { 
+            background: linear-gradient(90deg, var(--accent-gold), #f5b041); 
+            padding: 12px; 
+            border-radius: 10px; 
+            color: #111; 
+            font-weight: 800; 
+            font-size: 18px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(244,208,63,0.3);
+            animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+        }
+        .indizio-vuoto { 
+            border: 2px dashed #3d1554; 
+            padding: 25px; 
+            border-radius: 14px; 
+            color: #6c5287; 
+            font-size: 15px; 
+            font-weight: 500;
+        }
+        
+        .fase-finale { 
+            background: rgba(255, 0, 127, 0.05);
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px dashed var(--accent-pink);
+            display: none; 
+            animation: fadeIn 0.5s ease;
+        }
+        .fase-finale input {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .risultato { 
+            font-size: 24px; 
+            font-weight: 900; 
+            margin-top: 25px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-menu {
+            background: transparent;
+            border: 2px solid #3d1554;
+            color: #83679e;
+            box-shadow: none;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-menu:hover {
+            background: #3d1554;
+            color: #fff;
+        }
+
+        /* SCHERMATE FULLSCREEN STRUTTURALI (ERRORE / SUCCESSO) */
+        .feedback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .feedback-overlay.mostra {
+            display: flex !important;
+        }
+        
+        /* OVERLAY ERRORE (ROSSO) */
+        #schermataErrore {
+            background: radial-gradient(circle, #2d0015 20%, #0d0614 100%);
+            animation: flashRosso 0.3s ease-out;
+        }
+        
+        /* OVERLAY SUCCESSO (VERDE ANNI '80) */
+        #schermataSuccesso {
+            background: radial-gradient(circle, #052611 20%, #010c05 100%);
+            animation: flashVerde 0.3s ease-out;
+        }
+
+        .feedback-testo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 20px;
+            line-height: 1.4;
+            animation: shake 0.4s infinite alternate;
+            text-align: center;
+        }
+        #schermataErrore .feedback-testo {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0055, 0 0 40px #ff0055, 0 0 70px #ff0055;
+        }
+        #schermataSuccesso .feedback-testo {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #2ecc71, 0 0 40px #2ecc71, 0 0 70px #2ecc71;
+        }
+
+        @media (min-width: 480px) {
+            .feedback-testo { font-size: 3.5rem; }
+        }
+        
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 15px var(--accent-pink), 0 0 30px var(--accent-pink), 0 0 50px var(--accent-pink);
+            }
+            20%, 24%, 55% { text-shadow: none; }
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 0.9; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes flashRosso {
+            0% { background: #ff0055; opacity: 0.5; }
+            100% { background: radial-gradient(circle, #2d0015 20%, #0d0614 100%); opacity: 1; }
+        }
+        @keyframes flashVerde {
+            0% { background: #2ecc71; opacity: 0.5; }
+            100% { background: radial-gradient(circle, #052611 20%, #010c05 100%); opacity: 1; }
+        }
+        @keyframes shake {
+            0% { transform: rotate(-1deg) scale(0.98); }
+            100% { transform: rotate(1deg) scale(1.02); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="schermataErrore" class="feedback-overlay">
+    <div id="testoErrore" class="feedback-testo"></div>
+</div>
+
+<div id="schermataSuccesso" class="feedback-overlay">
+    <div id="testoSuccesso" class="feedback-testo"></div>
+</div>
+
+<div class="container">
+    <div class="neon-title-container">
+        <h1>La Ghigliottina della Gary</h1>
+    </div>
+    
+    <div id="setupScreen" class="setup-screen active">
+        <p style="color: var(--text-main); margin-bottom: 20px; font-size: 14px;">Configura il montepremi e inserisci le 5 coppie di indizi:</p>
+        
+        <div class="form-group">
+            <label>Montepremi Iniziale (€)</label>
+            <input type="number" id="setPremi" value="100000">
+        </div>
+        
+        <div class="form-group">
+            <label>Scelta 1</label>
+            <div class="row-coppia">
+                <input type="text" id="c1_vera" placeholder="Parola Esatta (es. Cane)">
+                <input type="text" id="c1_falsa" placeholder="Parola Errata">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Scelta 2</label>
+            <div class="row-coppia">
+                <input type="text" id="c2_vera" placeholder="Parola Esatta (es. Stella)">
+                <input type="text" id="c2_falsa" placeholder="Parola Errata">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Scelta 3</label>
+            <div class="row-coppia">
+                <input type="text" id="c3_vera" placeholder="Parola Esatta (es. Ruota)">
+                <input type="text" id="c3_falsa" placeholder="Parola Errata">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Scelta 4</label>
+            <div class="row-coppia">
+                <input type="text" id="c4_vera" placeholder="Parola Esatta (es. Calcio)">
+                <input type="text" id="c4_falsa" placeholder="Parola Errata">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Scelta 5</label>
+            <div class="row-coppia">
+                <input type="text" id="c5_vera" placeholder="Parola Esatta (es. Premio)">
+                <input type="text" id="c5_falsa" placeholder="Parola Errata">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Parola Soluzione Finale</label>
+            <input type="text" id="setSoluzione" placeholder="La parola vincente (es. Campione)">
+        </div>
+        
+        <button class="btn-action" onclick="avviaPartita()">Crea e Avvia Gioco</button>
+    </div>
+  <div id="gameScreen" class="game-screen">
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">Tempo Rimasto</div>
+                <div class="stat-value timer-val"><span id="timer">60</span>s</div>
+            </div>
+            <div class="stat-box" style="text-align: right;">
+                <div class="stat-label">Montepremi</div>
+                <div class="stat-value premi-val"><span id="montepremi">0</span> €</div>
+            </div>
+        </div>
+        
+        <div id="sezioneScelta" class="scelta-container">
+            <h3 id="titoloScelta">Scegli l'indizio giusto</h3>
+            <div class="opzioni-flessibili">
+                <button id="btnOpzioneA" class="btn-scelta" onclick="gestisciScelta(0)"></button>
+                <button id="btnOpzioneB" class="btn-scelta" onclick="gestisciScelta(1)"></button>
+            </div>
+        </div>
+
+        <div id="tabellone" class="indizi-tabellone">
+            <div class="indizio-vuoto">Il tuo tabellone è vuoto. Inizia a scegliere!</div>
+        </div>
+
+        <div id="sezioneFinale" class="fase-finale">
+            <div class="form-group">
+                <label>Qual è la parola che lega tutti gli indizi?</label>
+                <input type="text" id="rispostaUtente" placeholder="Digita la parola finale...">
+            </div>
+            <button class="btn-action" onclick="controllaRisposta()" style="background: linear-gradient(135deg, var(--accent-green), #27ae60); box-shadow: 0 0 15px rgba(46,204,113,0.4);">Conferma Risposta</button>
+        </div>
+        
+        <button onclick="tornaAlSetup()" class="btn-menu">Torna alla Configurazione</button>
+        <div id="risultato" class="risultato"></div>
+    </div>
+</div>
+
+<script>
+    let tempoRimasto = 60;
+    let montepremiAttuale = 0;
+    let soluzioneSegreta = "";
+    let contatoreTimer;
+    let giocoAttivo = false;
+    
+    let datiScelte = [];
+    let stepAttuale = 0;
+    let indiziConquistati = [];
+
+    const frasiErrore = [
+        "SBAGLIATO,<br>BABBEO!!",
+        "MA SEI SERIO?!",
+        "MONTEPREMI<br>DIMEZZATO!",
+        "CHE TOPPA,<br>CAMPIONE!",
+        "BOCCIATO!"
+    ];
+
+    const frasiIncitamento = [
+        "GRANDE CAPO!!",
+        "CHE INTUITO!",
+        "SEI UN DRAGO!",
+        "CENTRATO!",
+        "ECCELLENTE!"
+    ];
+
+    function resettaEAvviaTimer() {
+        clearInterval(contatoreTimer);
+        tempoRimasto = 60;
+        document.getElementById("timer").innerText = tempoRimasto;
+        contatoreTimer = setInterval(gestisciTimer, 1000);
+    }
+
+    function avviaPartita() {
+        soluzioneSegreta = document.getElementById("setSoluzione").value.trim().toLowerCase();
+        montepremiAttuale = parseInt(document.getElementById("setPremi").value) || 0;
+        
+        if(!soluzioneSegreta) {
+            alert("Inserisci la parola soluzione finale!");
+            return;
+        }
+
+        datiScelte = [];
+        for(let i = 1; i <= 5; i++) {
+            const vera = document.getElementById(`c${i}_vera`).value.trim();
+            const falsa = document.getElementById(`c${i}_falsa`).value.trim();
+            if(!vera || !falsa) {
+                alert(`Completa la coppia numero ${i}!`);
+                return;
+            }
+            datiScelte.push({ vera: vera, falsa: falsa });
+        }
+
+        stepAttuale = 0;
+        indiziConquistati = [];
+        giocoAttivo = true;
+        
+        document.getElementById("risultato").innerText = "";
+        document.getElementById("rispostaUtente").value = "";
+        document.getElementById("sezioneScelta").style.display = "block";
+        document.getElementById("sezioneFinale").style.display = "none";
+        
+        aggiornaTabellone();
+        mostraNuovaScelta();
+        document.getElementById("montepremi").innerText = montepremiAttuale.toLocaleString('it-IT');
+
+        document.getElementById("setupScreen").classList.remove("active");
+        document.getElementById("gameScreen").classList.add("active");
+
+        resettaEAvviaTimer();
+    }
+
+    function mostraNuovaScelta() {
+        if(stepAttuale < 5) {
+            document.getElementById("titoloScelta").innerText = `Scegli l'indizio giusto (Scelta ${stepAttuale + 1} di 5)`;
+            const coppia = datiScelte[stepAttuale];
+            
+            if(Math.random() > 0.5) {
+                document.getElementById("btnOpzioneA").innerText = coppia.vera;
+                document.getElementById("btnOpzioneA").dataset.tipo = "vera";
+                document.getElementById("btnOpzioneB").innerText = coppia.falsa;
+                document.getElementById("btnOpzioneB").dataset.tipo = "falsa";
+            } else {
+                document.getElementById("btnOpzioneA").innerText = coppia.falsa;
+                document.getElementById("btnOpzioneA").dataset.tipo = "falsa";
+                document.getElementById("btnOpzioneB").innerText = coppia.vera;
+                document.getElementById("btnOpzioneB").dataset.tipo = "vera";
+            }
+        }
+    }
+
+    function gestisciScelta(indiceBottone) {
+        if(!giocoAttivo) return;
+        
+        const idBottone = indiceBottone === 0 ? "btnOpzioneA" : "btnOpzioneB";
+        const tipoScelta = document.getElementById(idBottone).dataset.tipo;
+        const coppia = datiScelte[stepAttuale];
+
+        indiziConquistati.push(coppia.vera);
+        clearInterval(contatoreTimer); 
+
+        if(tipoScelta === "vera") {
+            document.getElementById("testoSuccesso").innerHTML = frasiIncitamento[Math.floor(Math.random() * frasiIncitamento.length)];
+            const overlay = document.getElementById("schermataSuccesso");
+            overlay.classList.add("mostra");
+            
+            setTimeout(() => {
+                overlay.classList.remove("mostra");
+                avanzaDiStep();
+            }, 2000);
+        } else {
+            montepremiAttuale = Math.floor(montepremiAttuale / 2);
+            document.getElementById("testoErrore").innerHTML = frasiErrore[Math.floor(Math.random() * frasiErrore.length)];
+            const overlay = document.getElementById("schermataErrore");
+            overlay.classList.add("mostra");
+            
+            setTimeout(() => {
+                overlay.classList.remove("mostra");
+                avanzaDiStep();
+            }, 2000);
+        }
+    }
+
+    function avanzaDiStep() {
+        aggiornaTabellone();
+        document.getElementById("montepremi").innerText = montepremiAttuale.toLocaleString('it-IT');
+        stepAttuale++;
+
+        if(stepAttuale < 5) {
+            mostraNuovaScelta();
+            resettaEAvviaTimer(); 
+        } else {
+            document.getElementById("sezioneScelta").style.display = "none";
+            document.getElementById("sezioneFinale").style.display = "block";
+            resettaEAvviaTimer(); 
+        }
+    }
+
+    function aggiornaTabellone() {
+        const tabellone = document.getElementById("tabellone");
+        if(indiziConquistati.length === 0) {
+            tabellone.innerHTML = '<div class="indizio-vuoto">Il tuo tabellone è vuoto. Inizia a scegliere!</div>';
+            return;
+        }
+        
+        let html = "";
+        for(let i = 0; i < indiziConquistati.length; i++) {
+            html += `<div class="indizio-scelto">${indiziConquistati[i]}</div>`;
+        }
+        tabellone.innerHTML = html;
+    }
+
+    function gestisciTimer() {
+        if(tempoRimasto > 0 && giocoAttivo) {
+            tempoRimasto--;
+            document.getElementById("timer").innerText = tempoRimasto;
+        } else if (tempoRimasto === 0 && giocoAttivo) {
+            fineGioco(false, "Tempo scaduto! ⏰ Game Over.");
+        }
+    }
+
+    function controllaRisposta() {
+        if(!giocoAttivo) return;
+        const risposta = document.getElementById("rispostaUtente").value.trim().toLowerCase();
+
+        if(risposta === soluzioneSegreta) {
+            fineGioco(true, `🎉 Grandioso! Hai vinto ${montepremiAttuale.toLocaleString('it-IT')} €!`);
+        } else {
+            fineGioco(false, `❌ Peccato! La parola corretta era: "${soluzioneSegreta.toUpperCase()}"`);
+        }
+    }
+
+    function fineGioco(vittoria, messaggio) {
+        giocoAttivo = false;
+        clearInterval(contatoreTimer);
+        const divRisultato = document.getElementById("risultato");
+        divRisultato.innerText = messaggio;
+        divRisultato.style.color = vittoria ? "var(--accent-green)" : "var(--accent-coral)";
+    }
+
+    function tornaAlSetup() {
+        clearInterval(contatoreTimer);
+        giocoAttivo = false;
+        document.getElementById("gameScreen").classList.remove("active");
+        document.getElementById("setupScreen").classList.add("active");
+    }
+</script>
+
+</body>
+</html>
