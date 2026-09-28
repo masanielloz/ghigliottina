@@ -77,14 +77,13 @@
 
         .setup-screen, .game-screen { display: none; }
         .active { display: block !important; }
-        
         .form-group { margin: 16px 0; text-align: left; }
         .row-coppia { display: flex; gap: 10px; margin-bottom: 8px; }
         .row-coppia input { width: 50%; }
         
         label { display: block; font-size: 12px; margin-bottom: 6px; color: var(--accent-neon); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
         
-        input { 
+        input, select { 
             width: 100%; 
             padding: 12px 14px; 
             font-size: 14px; 
@@ -95,11 +94,12 @@
             box-sizing: border-box;
             transition: all 0.3s;
         }
-        input:focus {
+        input:focus, select:focus {
             border-color: var(--accent-neon);
             outline: none;
             box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
         }
+        select option { background: #09050f; color: white; }
 
         .btn-action { 
             width: 100%; 
@@ -125,6 +125,12 @@
             background: linear-gradient(135deg, #ff00aa, var(--accent-pink));
         }
 
+        .row-condivisione { display: flex; gap: 10px; margin-top: 8px; }
+        .btn-copy { width: 30%; background: linear-gradient(135deg, #00f2fe, #4facfe); color: #0d0614; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+        .btn-copy:hover { transform: scale(1.03); box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); }
+
+        .link-condiviso-container { margin-top: 20px; padding: 15px; background: rgba(0, 242, 254, 0.1); border: 1px solid var(--accent-neon); border-radius: 10px; display: none; }
+
         .stats { 
             display: flex; 
             justify-content: space-between; 
@@ -142,7 +148,6 @@
         
         .timer-val { color: var(--accent-coral); text-shadow: 0 0 10px rgba(255,87,51,0.3); }
         .premi-val { color: var(--accent-green); text-shadow: 0 0 10px rgba(46,204,113,0.3); }
-        
         .scelta-container { 
             background: #12091f; 
             padding: 20px; 
@@ -174,7 +179,8 @@
             transform: scale(1.04);
             box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
         }
-.indizi-tabellone { 
+        
+        .indizi-tabellone { 
             display: flex; 
             flex-direction: column; 
             gap: 10px; 
@@ -205,124 +211,54 @@
         
         .fase-finale { 
             background: rgba(255, 0, 127, 0.05);
-            padding: 20px;
+            padding: 25px 20px;
             border-radius: 18px;
             border: 1px dashed var(--accent-pink);
             display: none; 
             animation: fadeIn 0.5s ease;
         }
-        .fase-finale input {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        .risultato { 
-            font-size: 24px; 
-            font-weight: 900; 
-            margin-top: 25px; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .fase-finale input { text-align: center; font-size: 1.2rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
 
-        .btn-menu {
-            background: transparent;
-            border: 2px solid #3d1554;
-            color: #83679e;
-            box-shadow: none;
-            margin-top: 20px;
-            padding: 10px;
-            font-size: 14px;
-            width: 100%;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .btn-menu:hover {
-            background: #3d1554;
-            color: #fff;
-        }
-
-        /* SCHERMATE FULLSCREEN STRUTTURALI (ERRORE / SUCCESSO) */
-        .feedback-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-        .feedback-overlay.mostra {
-            display: flex !important;
-        }
-        
-        /* OVERLAY ERRORE (ROSSO) */
-        #schermataErrore {
-            background: radial-gradient(circle, #2d0015 20%, #0d0614 100%);
-            animation: flashRosso 0.3s ease-out;
-        }
-        
-        /* OVERLAY SUCCESSO (VERDE ANNI '80) */
-        #schermataSuccesso {
-            background: radial-gradient(circle, #052611 20%, #010c05 100%);
-            animation: flashVerde 0.3s ease-out;
-        }
-
-        .feedback-testo {
+        .fase-finale label {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
+            font-size: 1rem; 
             font-weight: 900;
-            color: #fff;
+            color: #fff !important;
+            display: block;
+            width: 100%;
+            text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #00f2fe, 0 0 25px #00f2fe;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            padding: 20px;
-            line-height: 1.4;
-            animation: shake 0.4s infinite alternate;
-            text-align: center;
-        }
-        #schermataErrore .feedback-testo {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0055, 0 0 40px #ff0055, 0 0 70px #ff0055;
-        }
-        #schermataSuccesso .feedback-testo {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #2ecc71, 0 0 40px #2ecc71, 0 0 70px #2ecc71;
+            box-sizing: border-box;
+            word-wrap: break-word; 
+            animation: flickerBlu 2s infinite alternate;
         }
 
-        @media (min-width: 480px) {
-            .feedback-testo { font-size: 3.5rem; }
-        }
+        @media (min-width: 480px) { .fase-finale label { font-size: 1.2rem; white-space: nowrap; } }
         
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 15px var(--accent-pink), 0 0 30px var(--accent-pink), 0 0 50px var(--accent-pink);
-            }
-            20%, 24%, 55% { text-shadow: none; }
-        }
-        @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 0.9; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes flashRosso {
-            0% { background: #ff0055; opacity: 0.5; }
-            100% { background: radial-gradient(circle, #2d0015 20%, #0d0614 100%); opacity: 1; }
-        }
-        @keyframes flashVerde {
-            0% { background: #2ecc71; opacity: 0.5; }
-            100% { background: radial-gradient(circle, #052611 20%, #010c05 100%); opacity: 1; }
-        }
-        @keyframes shake {
-            0% { transform: rotate(-1deg) scale(0.98); }
-            100% { transform: rotate(1deg) scale(1.02); }
-        }
+        .risultato { font-size: 24px; font-weight: 900; margin-top: 25px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-menu { background: transparent; border: 2px solid #3d1554; color: #83679e; box-shadow: none; margin-top: 20px; padding: 10px; font-size: 14px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: 600; display: none; }
+        .btn-menu:hover { background: #3d1554; color: #fff; }
+
+        .feedback-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: none; align-items: center; justify-content: center; }
+        .feedback-overlay.mostra { display: flex !important; }
+        #schermataErrore { background: radial-gradient(circle, #2d0015 20%, #0d0614 100%); animation: flashRosso 0.3s ease-out; }
+        #schermataSuccesso { background: radial-gradient(circle, #052611 20%, #010c05 100%); animation: flashVerde 0.3s ease-out; }
+
+        .feedback-testo { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 3px; padding: 20px; line-height: 1.4; animation: shake 0.4s infinite alternate; text-align: center; }
+        #schermataErrore .feedback-testo { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0055, 0 0 40px #ff0055, 0 0 70px #ff0055; }
+        #schermataSuccesso .feedback-testo { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #2ecc71, 0 0 40px #2ecc71, 0 0 70px #2ecc71; }
+
+        @media (min-width: 480px) { .feedback-testo { font-size: 3.5rem; } }
+        
+        @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 15px var(--accent-pink), 0 0 30px var(--accent-pink), 0 0 50px var(--accent-pink); } 20%, 24%, 55% { text-shadow: none; } }
+        @keyframes flickerBlu { 0%, 15%, 26%, 29%, 63%, 67%, 100% { text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #00f2fe, 0 0 25px #00f2fe, 0 0 40px #00f2fe; } 18%, 28%, 65% { text-shadow: none; } }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { opacity: 0.9; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes flashRosso { 0% { background: #ff0055; opacity: 0.5; } 100% { background: radial-gradient(circle, #2d0015 20%, #0d0614 100%); opacity: 1; } }
+        @keyframes flashVerde { 0% { background: #2ecc71; opacity: 0.5; } 100% { background: radial-gradient(circle, #052611 20%, #010c05 100%); opacity: 1; } }
+        @keyframes shake { 0% { transform: rotate(-1deg) scale(0.98); } 100% { transform: rotate(1deg) scale(1.02); } }
     </style>
 </head>
 <body>
@@ -334,15 +270,25 @@
 <div id="schermataSuccesso" class="feedback-overlay">
     <div id="testoSuccesso" class="feedback-testo"></div>
 </div>
-
 <div class="container">
     <div class="neon-title-container">
         <h1>La Ghigliottina della Gary</h1>
     </div>
     
-    <div id="setupScreen" class="setup-screen active">
-        <p style="color: var(--text-main); margin-bottom: 20px; font-size: 14px;">Configura il montepremi e inserisci le 5 coppie di indizi:</p>
+    <!-- SCHERMATA CONFIGURAZIONE CON MENU SOTTO-TENDINA DELLE SFIDE SALVATE -->
+    <div id="setupScreen" class="setup-screen">
+        <p style="color: var(--text-main); margin-bottom: 20px; font-size: 14px;">Pannello del Creatore: inserisci le parole o caricale dall'archivio.</p>
         
+        <div class="form-group" style="margin-bottom: 25px;">
+            <label style="color: var(--accent-gold);">📂 Carica una sfida salvata</label>
+            <select id="menuArchivio" onchange="caricaSfidaSelezionata()">
+                <option value="">-- Seleziona una partita salvata --</option>
+                <option value="sfida1">Sfida 1 (Esempio Calcio)</option>
+                <option value="sfida2">Sfida 2 (Esempio Spazio)</option>
+                <option value="sfida3">Sfida 3 (Cucina)</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label>Montepremi Iniziale (€)</label>
             <input type="number" id="setPremi" value="100000">
@@ -351,47 +297,57 @@
         <div class="form-group">
             <label>Scelta 1</label>
             <div class="row-coppia">
-                <input type="text" id="c1_vera" placeholder="Parola Esatta (es. Cane)">
+                <input type="text" id="c1_vera" placeholder="Parola Esatta">
                 <input type="text" id="c1_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 2</label>
             <div class="row-coppia">
-                <input type="text" id="c2_vera" placeholder="Parola Esatta (es. Stella)">
+                <input type="text" id="c2_vera" placeholder="Parola Esatta">
                 <input type="text" id="c2_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 3</label>
             <div class="row-coppia">
-                <input type="text" id="c3_vera" placeholder="Parola Esatta (es. Ruota)">
+                <input type="text" id="c3_vera" placeholder="Parola Esatta">
                 <input type="text" id="c3_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 4</label>
             <div class="row-coppia">
-                <input type="text" id="c4_vera" placeholder="Parola Esatta (es. Calcio)">
+                <input type="text" id="c4_vera" placeholder="Parola Esatta">
                 <input type="text" id="c4_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 5</label>
             <div class="row-coppia">
-                <input type="text" id="c5_vera" placeholder="Parola Esatta (es. Premio)">
+                <input type="text" id="c5_vera" placeholder="Parola Esatta">
                 <input type="text" id="c5_falsa" placeholder="Parola Errata">
             </div>
         </div>
         
         <div class="form-group">
             <label>Parola Soluzione Finale</label>
-            <input type="text" id="setSoluzione" placeholder="La parola vincente (es. Campione)">
+            <input type="text" id="setSoluzione" placeholder="La parola vincente">
         </div>
         
-        <button class="btn-action" onclick="avviaPartita()">Crea e Avvia Gioco</button>
+        <button class="btn-action" onclick="generaLinkAmici()">Genera Link per gli Amici</button>
+        
+        <div id="linkCondivisoContainer" class="link-condiviso-container">
+            <p style="margin-top:0; font-size:13px; color:#fff;">Indirizzo pronto! Clicca su Copia per inviarlo agli amici:</p>
+            <div class="row-condivisione">
+                <input type="text" id="linkGenerato" readonly style="color:var(--accent-neon); font-weight:bold; text-align:center;">
+                <button class="btn-copy" onclick="copiaLinkAutomatico()">Copia</button>
+            </div>
+        </div>
     </div>
-  <div id="gameScreen" class="game-screen">
+
+    <!-- SCHERMATA INTERATTIVA DI GIOCO -->
+    <div id="gameScreen" class="game-screen">
         <div class="stats">
             <div class="stat-box">
                 <div class="stat-label">Tempo Rimasto</div>
@@ -416,206 +372,178 @@
         </div>
 
         <div id="sezioneFinale" class="fase-finale">
-            <div class="form-group">
+            <div class="form-group" style="text-align: center;">
                 <label>Qual è la parola che lega tutti gli indizi?</label>
                 <input type="text" id="rispostaUtente" placeholder="Digita la parola finale...">
             </div>
             <button class="btn-action" onclick="controllaRisposta()" style="background: linear-gradient(135deg, var(--accent-green), #27ae60); box-shadow: 0 0 15px rgba(46,204,113,0.4);">Conferma Risposta</button>
         </div>
         
-        <button onclick="tornaAlSetup()" class="btn-menu">Torna alla Configurazione</button>
+        <button id="btnTornaConfig" onclick="tornaAlSetup()" class="btn-menu">Torna alla Configurazione</button>
         <div id="risultato" class="risultato"></div>
     </div>
 </div>
-
 <script>
-    let tempoRimasto = 60;
-    let montepremiAttuale = 0;
-    let soluzioneSegreta = "";
-    let contatoreTimer;
-    let giocoAttivo = false;
-    
-    let datiScelte = [];
-    let stepAttuale = 0;
-    let indiziConquistati = [];
+    let tempoRimasto = 60, montepremiAttuale = 0, soluzioneSegreta = "", contatoreTimer, giocoAttivo = false, datiScelte = [], stepAttuale = 0, indiziConquistati = [];
 
-    const frasiErrore = [
-        "SBAGLIATO,<br>BABBEO!!",
-        "MA SEI SERIO?!",
-        "MONTEPREMI<br>DIMEZZATO!",
-        "CHE TOPPA,<br>CAMPIONE!",
-        "BOCCIATO!"
-    ];
+    // 📂 DATABASE ARCHIVIO: MODIFICA O AGGIUNGI QUI LE TUE PARTITE PRONTE
+    const archivioSfide = {
+        sfida1: {
+            premi: 150000,
+            soluzione: "campione",
+            coppie: [
+                { vera: "Cane", falsa: "Gatto" },
+                { vera: "Stella", falsa: "Luna" },
+                { vera: "Ruota", falsa: "Volante" },
+                { vera: "Calcio", falsa: "Tennis" },
+                { vera: "Premio", falsa: "Castigo" }
+            ]
+        },
+        sfida2: {
+            premi: 200000,
+            soluzione: "spazio",
+            coppie: [
+                { vera: "Tempo", falsa: "Orologio" },
+                { vera: "Razzo", falsa: "Aereo" },
+                { vera: "Profondo", falsa: "Basso" },
+                { vera: "Barra", falsa: "Punto" },
+                { vera: "Astronauta", falsa: "Pilota" }
+            ]
+        },
+        sfida3: {
+            premi: 120000,
+            soluzione: "pasta",
+            coppie: [
+                { vera: "Sfoglia", falsa: "Libro" },
+                { vera: "Dura", falsa: "Morbida" },
+                { vera: "Pomodoro", falsa: "Insalata" },
+                { vera: "Dente", falsa: "Bocca" },
+                { vera: "Acqua", falsa: "Vino" }
+            ]
+        }
+    };
 
-    const frasiIncitamento = [
-        "GRANDE CAPO!!",
-        "INTUITO A PACCHI!",
-        "SEI UN DRAGO!",
-        "DAJE!",
-        "AMMAZZA CHE CULO!"
-    ];
+    const frasiErrore = ["SBAGLIATO,<br>BABBEO!!", "MA SEI SERIO?!", "MONTEPREMI<br>DIMEZZATO!", "CHE TOPPA,<br>CAMPIONE!", "BOCCIATO!"];
+    const frasiIncitamento = ["GRANDE CAPO!!", "CHE INTUITO!", "SEI UN DRAGO!", "CENTRATO!", "ECCELLENTE!"];
 
-    function resettaEAvviaTimer() {
-        clearInterval(contatoreTimer);
-        tempoRimasto = 60;
-        document.getElementById("timer").innerText = tempoRimasto;
-        contatoreTimer = setInterval(gestisciTimer, 1000);
+    function caricaSfidaSelezionata() {
+        const idSfida = document.getElementById("menuArchivio").value;
+        if (!idSfida || !archivioSfide[idSfida]) return;
+        
+        const sfida = archivioSfide[idSfida];
+        document.getElementById("setPremi").value = sfida.premi;
+        document.getElementById("setSoluzione").value = sfida.soluzione;
+        
+        for (let i = 0; i < 5; i++) {
+            document.getElementById(`c${i+1}_vera`).value = sfida.coppie[i].vera;
+            document.getElementById(`c${i+1}_falsa`).value = sfida.coppie[i].falsa;
+        }
     }
 
-    function avviaPartita() {
-        soluzioneSegreta = document.getElementById("setSoluzione").value.trim().toLowerCase();
-        montepremiAttuale = parseInt(document.getElementById("setPremi").value) || 0;
-        
-        if(!soluzioneSegreta) {
-            alert("Inserisci la parola soluzione finale!");
-            return;
-        }
+    function decodificaDati(stringa) { return decodeURIComponent(escape(atob(stringa))); }
+    function codificaDati(stringa) { return btoa(unescape(encodeURIComponent(stringa))); }
 
-        datiScelte = [];
-        for(let i = 1; i <= 5; i++) {
-            const vera = document.getElementById(`c${i}_vera`).value.trim();
-            const falsa = document.getElementById(`c${i}_falsa`).value.trim();
-            if(!vera || !falsa) {
-                alert(`Completa la coppia numero ${i}!`);
-                return;
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('game')) {
+            try {
+                const datiCriptati = urlParams.get('game');
+                const gioco = JSON.parse(decodificaDati(datiCriptati));
+                soluzioneSegreta = gioco.s;
+                montepremiAttuale = gioco.p;
+                datiScelte = gioco.d;
+                document.getElementById("btnTornaConfig").style.display = "none";
+                avviaGiocoDiretto();
+            } catch (e) {
+                alert("Link non valido! Ti porto al pannello di controllo.");
+                mostraSetup();
             }
-            datiScelte.push({ vera: vera, falsa: falsa });
+        } else { mostraSetup(); }
+    };
+
+    function mostraSetup() { document.getElementById("gameScreen").classList.remove("active"); document.getElementById("setupScreen").classList.add("active"); }
+
+    function generaLinkAmici() {
+        const sol = document.getElementById("setSoluzione").value.trim().toLowerCase();
+        const prem = parseInt(document.getElementById("setPremi").value) || 0;
+        if(!sol) { alert("Inserisci la parola soluzione finale!"); return; }
+        let scelte = [];
+        for(let i = 1; i <= 5; i++) {
+            const vera = document.getElementById(`c${i}_vera`).value.trim(), falsa = document.getElementById(`c${i}_falsa`).value.trim();
+            if(!vera || !falsa) { alert(`Completa la coppia numero ${i}!`); return; }
+            scelte.push({ vera: vera, falsa: falsa });
         }
+        const oggettoGioco = { s: sol, p: prem, d: scelte };
+        const linkFinito = window.location.origin + window.location.pathname + "?game=" + codificaDati(JSON.stringify(oggettoGioco));
+        document.getElementById("linkGenerato").value = linkFinito;
+        document.getElementById("linkCondivisoContainer").style.display = "block";
+    }
 
-        stepAttuale = 0;
-        indiziConquistati = [];
-        giocoAttivo = true;
-        
-        document.getElementById("risultato").innerText = "";
-        document.getElementById("rispostaUtente").value = "";
-        document.getElementById("sezioneScelta").style.display = "block";
-        document.getElementById("sezioneFinale").style.display = "none";
-        
-        aggiornaTabellone();
-        mostraNuovaScelta();
-        document.getElementById("montepremi").innerText = montepremiAttuale.toLocaleString('it-IT');
+    function copiaLinkAutomatico() {
+        const campoLink = document.getElementById("linkGenerato");
+        campoLink.select(); campoLink.setSelectionRange(0, 99999);
+        try { navigator.clipboard.writeText(campoLink.value); alert("Link copiato! 🚀 Ora invialo agli amici."); } 
+        catch (err) { document.execCommand("copy"); alert("Link copiato! 🚀"); }
+    }
 
-        document.getElementById("setupScreen").classList.remove("active");
-        document.getElementById("gameScreen").classList.add("active");
-
+    function avviaGiocoDiretto() {
+        stepAttuale = 0; indiziConquistati = []; giocoAttivo = true;
+        document.getElementById("risultato").innerText = ""; document.getElementById("rispostaUtente").value = "";
+        document.getElementById("sezioneScelta").style.display = "block"; document.getElementById("sezioneFinale").style.display = "none";
+        aggiornaTabellone(); mostraNuovaScelta(); document.getElementById("montepremi").innerText = montepremiAttuale.toLocaleString('it-IT');
+        document.getElementById("setupScreen").classList.remove("active"); document.getElementById("gameScreen").classList.add("active");
         resettaEAvviaTimer();
     }
 
+    function resettaEAvviaTimer() { clearInterval(contatoreTimer); tempoRimasto = 60; document.getElementById("timer").innerText = tempoRimasto; contatoreTimer = setInterval(gestisciTimer, 1000); }
+
     function mostraNuovaScelta() {
         if(stepAttuale < 5) {
-            document.getElementById("titoloScelta").innerText = `Scegli l'indizio giusto (Scelta ${stepAttuale + 1} di 5)`;
             const coppia = datiScelte[stepAttuale];
-            
-            if(Math.random() > 0.5) {
-                document.getElementById("btnOpzioneA").innerText = coppia.vera;
-                document.getElementById("btnOpzioneA").dataset.tipo = "vera";
-                document.getElementById("btnOpzioneB").innerText = coppia.falsa;
-                document.getElementById("btnOpzioneB").dataset.tipo = "falsa";
-            } else {
-                document.getElementById("btnOpzioneA").innerText = coppia.falsa;
-                document.getElementById("btnOpzioneA").dataset.tipo = "falsa";
-                document.getElementById("btnOpzioneB").innerText = coppia.vera;
-                document.getElementById("btnOpzioneB").dataset.tipo = "vera";
-            }
+            if(Math.random() > 0.5) { document.getElementById("btnOpzioneA").innerText = coppia.vera; document.getElementById("btnOpzioneA").dataset.tipo = "vera"; document.getElementById("btnOpzioneB").innerText = coppia.falsa; document.getElementById("btnOpzioneB").dataset.tipo = "falsa"; }
+            else { document.getElementById("btnOpzioneA").innerText = coppia.falsa; document.getElementById("btnOpzioneA").dataset.tipo = "falsa"; document.getElementById("btnOpzioneB").innerText = coppia.vera; document.getElementById("btnOpzioneB").dataset.tipo = "vera"; }
         }
     }
 
     function gestisciScelta(indiceBottone) {
         if(!giocoAttivo) return;
-        
-        const idBottone = indiceBottone === 0 ? "btnOpzioneA" : "btnOpzioneB";
-        const tipoScelta = document.getElementById(idBottone).dataset.tipo;
-        const coppia = datiScelte[stepAttuale];
-
-        indiziConquistati.push(coppia.vera);
-        clearInterval(contatoreTimer); 
-
+        const idBottone = indiceBottone === 0 ? "btnOpzioneA" : "btnOpzioneB", tipoScelta = document.getElementById(idBottone).dataset.tipo, coppia = datiScelte[stepAttuale];
+        indiziConquistati.push(coppia.vera); clearInterval(contatoreTimer);
         if(tipoScelta === "vera") {
             document.getElementById("testoSuccesso").innerHTML = frasiIncitamento[Math.floor(Math.random() * frasiIncitamento.length)];
-            const overlay = document.getElementById("schermataSuccesso");
-            overlay.classList.add("mostra");
-            
-            setTimeout(() => {
-                overlay.classList.remove("mostra");
-                avanzaDiStep();
-            }, 2000);
+            const overlay = document.getElementById("schermataSuccesso"); overlay.classList.add("mostra");
+            setTimeout(() => { overlay.classList.remove("mostra"); avanzaDiStep(); }, 2000);
         } else {
             montepremiAttuale = Math.floor(montepremiAttuale / 2);
             document.getElementById("testoErrore").innerHTML = frasiErrore[Math.floor(Math.random() * frasiErrore.length)];
-            const overlay = document.getElementById("schermataErrore");
-            overlay.classList.add("mostra");
-            
-            setTimeout(() => {
-                overlay.classList.remove("mostra");
-                avanzaDiStep();
-            }, 2000);
+            const overlay = document.getElementById("schermataErrore"); overlay.classList.add("mostra");
+            setTimeout(() => { overlay.classList.remove("mostra"); avanzaDiStep(); }, 2000);
         }
     }
 
     function avanzaDiStep() {
-        aggiornaTabellone();
-        document.getElementById("montepremi").innerText = montepremiAttuale.toLocaleString('it-IT');
-        stepAttuale++;
-
-        if(stepAttuale < 5) {
-            mostraNuovaScelta();
-            resettaEAvviaTimer(); 
-        } else {
-            document.getElementById("sezioneScelta").style.display = "none";
-            document.getElementById("sezioneFinale").style.display = "block";
-            resettaEAvviaTimer(); 
-        }
+        aggiornaTabellone(); document.getElementById("montepremi").innerText = montepremiAttuale.toLocaleString('it-IT'); stepAttuale++;
+        if(stepAttuale < 5) { mostraNuovaScelta(); resettaEAvviaTimer(); }
+        else { document.getElementById("sezioneScelta").style.display = "none"; document.getElementById("sezioneFinale").style.display = "block"; resettaEAvviaTimer(); }
     }
 
     function aggiornaTabellone() {
-        const tabellone = document.getElementById("tabellone");
-        if(indiziConquistati.length === 0) {
-            tabellone.innerHTML = '<div class="indizio-vuoto">Il tuo tabellone è vuoto. Inizia a scegliere!</div>';
-            return;
-        }
-        
-        let html = "";
-        for(let i = 0; i < indiziConquistati.length; i++) {
-            html += `<div class="indizio-scelto">${indiziConquistati[i]}</div>`;
-        }
+        const tabellone = document.getElementById("tabellone"); if(indiziConquistati.length === 0) { tabellone.innerHTML = '<div class="indizio-vuoto">Il tuo tabellone è vuoto.</div>'; return; }
+        let html = ""; for(let i = 0; i < indiziConquistati.length; i++) { html += `<div class="indizio-scelto">${indiziConquistati[i]}</div>`; }
         tabellone.innerHTML = html;
     }
 
-    function gestisciTimer() {
-        if(tempoRimasto > 0 && giocoAttivo) {
-            tempoRimasto--;
-            document.getElementById("timer").innerText = tempoRimasto;
-        } else if (tempoRimasto === 0 && giocoAttivo) {
-            fineGioco(false, "Tempo scaduto! ⏰ Game Over.");
-        }
-    }
+    function gestisciTimer() { if(tempoRimasto > 0 && giocoAttivo) { tempoRimasto--; document.getElementById("timer").innerText = tempoRimasto; } else if (tempoRimasto === 0 && giocoAttivo) { fineGioco(false, "Tempo scaduto! ⏰ Game Over."); } }
 
     function controllaRisposta() {
-        if(!giocoAttivo) return;
-        const risposta = document.getElementById("rispostaUtente").value.trim().toLowerCase();
-
-        if(risposta === soluzioneSegreta) {
-            fineGioco(true, `🎉 Grandioso! Hai vinto ${montepremiAttuale.toLocaleString('it-IT')} €!`);
-        } else {
-            fineGioco(false, `❌ Peccato! La parola corretta era: "${soluzioneSegreta.toUpperCase()}"`);
-        }
+        if(!giocoAttivo) return; const risposta = document.getElementById("rispostaUtente").value.trim().toLowerCase();
+        if(risposta === soluzioneSegreta) { fineGioco(true, `🎉 Grandioso! Hai vinto ${montepremiAttuale.toLocaleString('it-IT')} €!`); } 
+        else { fineGioco(false, `❌ Peccato! La parola corretta era: "${soluzioneSegreta.toUpperCase()}"`); }
     }
 
-    function fineGioco(vittoria, messaggio) {
-        giocoAttivo = false;
-        clearInterval(contatoreTimer);
-        const divRisultato = document.getElementById("risultato");
-        divRisultato.innerText = messaggio;
-        divRisultato.style.color = vittoria ? "var(--accent-green)" : "var(--accent-coral)";
-    }
-
-    function tornaAlSetup() {
-        clearInterval(contatoreTimer);
-        giocoAttivo = false;
-        document.getElementById("gameScreen").classList.remove("active");
-        document.getElementById("setupScreen").classList.add("active");
-    }
+    function fineGioco(vittoria, messaggio) { giocoAttivo = false; clearInterval(contatoreTimer); const divRisultato = document.getElementById("risultato"); divRisultato.innerText = messaggio; divRisultato.style.color = vittoria ? "var(--accent-green)" : "var(--accent-coral)"; }
+    function tornaAlSetup() { clearInterval(contatoreTimer); giocoAttivo = false; document.getElementById("gameScreen").classList.remove("active"); document.getElementById("setupScreen").classList.add("active"); }
 </script>
-
 </body>
 </html>
+
