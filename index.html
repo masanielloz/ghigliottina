@@ -449,7 +449,28 @@
 
     const frasiErrore = ["SBAGLIATO,<br>BABBEO!!", "MA SEI SERIO?!", "MONTEPREMI?<br>CHAONI!", "CHE PIPPA!", "SEEEE VABBE!"];
     const frasiIncitamento = ["PRESO!!", "DAJE COSI!", "SEI UN DRAGO!", "TOP CLASS!", "ECCELLENTE!"];
-
+  
+   // =========================================================================
+    // 👁️ NUOVA FUNZIONE DI CENSURA MASTER (COPRE / SVELA TUTTI GLI INPUT)
+    // =========================================================================
+    function toggleCensuraPannello() {
+        pannelloVisibile = !pannelloVisibile;
+        const pulsante = document.getElementById("btnMasterToggle");
+        const tipoInput = pannelloVisibile ? "text" : "password";
+        
+        // Aggiorna la grafica e il testo del pulsante master in alto
+        pulsante.innerText = pannelloVisibile ? "🔒 NASCONDI PAROLE" : "👁️ MOSTRA PAROLE";
+        pulsante.style.color = pannelloVisibile ? "var(--accent-pink)" : "var(--accent-gold)";
+        
+        // Applica il cambio di visualizzazione (asterischi/testo in chiaro) a tutti i campi
+        document.getElementById("setSoluzione").type = tipoInput;
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById(`c${i}_vera`).type = tipoInput;
+            document.getElementById(`c${i}_falsa`).type = tipoInput;
+        }
+    }
+    // =========================================================================
+    
     function caricaSfidaSelezionata() {
         const idSfida = document.getElementById("menuArchivio").value;
         if (!idSfida || !archivioSfide[idSfida]) return;
