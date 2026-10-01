@@ -344,10 +344,11 @@
         
         <button class="btn-action" onclick="generaLinkAmici()">Genera Link per gli Amici</button>
         
-            <div class="row-condivisione" style="display: flex; gap: 10px; margin-top: 8px;">
-            <input type="text" id="linkGenerato" readonly style="color: var(--accent-neon); font-weight: bold; text-align: center; width: 50%;">
-            <button class="btn-copy" onclick="copiaLinkAutomatico()" style="width: 25%;">Copia</button>
-            <button class="btn-play" onclick="apriPartitaNuovaScheda()" style="width: 25%; background: linear-gradient(135deg, var(--accent-pink), #ff0055); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;">Gioca</button>
+        <div id="linkCondivisoContainer" class="link-condiviso-container">
+            <p style="margin-top:0; font-size:13px; color:#fff;">Indirizzo pronto! Clicca su Copia per inviarlo agli amici:</p>
+            <div class="row-condivisione">
+                <input type="text" id="linkGenerato" readonly style="color:var(--accent-neon); font-weight:bold; text-align:center;">
+                <button class="btn-copy" onclick="copiaLinkAutomatico()">Copia</button>
             </div>
         </div>
     </div>
@@ -526,14 +527,6 @@ function toggleCensuraPannello() {
         document.getElementById("linkCondivisoContainer").style.display = "block";
     }
 
-    function apriPartitaNuovaScheda() {
-    const url = document.getElementById("linkGenerato").value;
-    if (url) {
-        window.open(url, '_blank');
-    } else {
-        alert("Genera prima il link del gioco!");
-    }
-}    
     function copiaLinkAutomatico() {
         const campoLink = document.getElementById("linkGenerato");
         campoLink.select(); campoLink.setSelectionRange(0, 99999);
@@ -601,4 +594,3 @@ function toggleCensuraPannello() {
 </script>
 </body>
 </html>
-
