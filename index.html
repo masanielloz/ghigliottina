@@ -277,11 +277,7 @@
     
     <!-- SCHERMATA CONFIGURAZIONE CON MENU SOTTO-TENDINA DELLE SFIDE SALVATE -->
     <div id="setupScreen" class="setup-screen">
- 
-     <div class="master-toggle-container" style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
-        <button type="button" class="btn-master-toggle" id="btnMasterToggle" onclick="toggleCensuraPannello()" style="background: #1f2833; border: 2px solid #3d1554; color: #f4d03f; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; text-transform: uppercase;">👁️ MOSTRA PAROLE</button>
-    </div>   
-               
+    
         <p style="color: var(--text-main); margin-bottom: 20px; font-size: 14px;">Pannello del Creatore: inserisci le parole o caricale dall'archivio.</p>
         
         <div class="form-group" style="margin-bottom: 25px;">
@@ -296,6 +292,10 @@
             </select>
         </div>
 
+         <div class="master-toggle-container" style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
+            <button type="button" class="btn-master-toggle" id="btnMasterToggle" onclick="toggleCensuraPannello()" style="background: #1f2833; border: 2px solid #3d1554; color: #f4d03f; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; text-transform: uppercase;">👁️ MOSTRA PAROLE</button>
+        </div>   
+            
         <div class="form-group">
             <label>Montepremi Iniziale (€)</label>
             <input type="number" id="setPremi" value="100000">
