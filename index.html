@@ -277,6 +277,11 @@
     
     <!-- SCHERMATA CONFIGURAZIONE CON MENU SOTTO-TENDINA DELLE SFIDE SALVATE -->
     <div id="setupScreen" class="setup-screen">
+ 
+     <div class="master-toggle-container" style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
+        <button type="button" class="btn-master-toggle" id="btnMasterToggle" onclick="toggleCensuraPannello()" style="background: #1f2833; border: 2px solid #3d1554; color: #f4d03f; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 12px; text-transform: uppercase;">👁️ MOSTRA PAROLE</button>
+    </div>   
+               
         <p style="color: var(--text-main); margin-bottom: 20px; font-size: 14px;">Pannello del Creatore: inserisci le parole o caricale dall'archivio.</p>
         
         <div class="form-group" style="margin-bottom: 25px;">
@@ -299,42 +304,42 @@
         <div class="form-group">
             <label>Scelta 1</label>
             <div class="row-coppia">
-                <input type="text" id="c1_vera" placeholder="Parola Esatta">
-                <input type="text" id="c1_falsa" placeholder="Parola Errata">
+                <input type="password" id="c1_vera" placeholder="Parola Esatta">
+                <input type="password" id="c1_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 2</label>
             <div class="row-coppia">
-                <input type="text" id="c2_vera" placeholder="Parola Esatta">
-                <input type="text" id="c2_falsa" placeholder="Parola Errata">
+                <input type="password" id="c2_vera" placeholder="Parola Esatta">
+                <input type="password" id="c2_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 3</label>
             <div class="row-coppia">
-                <input type="text" id="c3_vera" placeholder="Parola Esatta">
-                <input type="text" id="c3_falsa" placeholder="Parola Errata">
+                <input type="password" id="c3_vera" placeholder="Parola Esatta">
+                <input type="password" id="c3_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 4</label>
             <div class="row-coppia">
-                <input type="text" id="c4_vera" placeholder="Parola Esatta">
-                <input type="text" id="c4_falsa" placeholder="Parola Errata">
+                <input type="password" id="c4_vera" placeholder="Parola Esatta">
+                <input type="password" id="c4_falsa" placeholder="Parola Errata">
             </div>
         </div>
         <div class="form-group">
             <label>Scelta 5</label>
             <div class="row-coppia">
-                <input type="text" id="c5_vera" placeholder="Parola Esatta">
-                <input type="text" id="c5_falsa" placeholder="Parola Errata">
+                <input type="password" id="c5_vera" placeholder="Parola Esatta">
+                <input type="password" id="c5_falsa" placeholder="Parola Errata">
             </div>
         </div>
         
         <div class="form-group">
             <label>Parola Soluzione Finale</label>
-            <input type="text" id="setSoluzione" placeholder="La parola vincente">
+            <input type="password" id="setSoluzione" placeholder="La parola vincente">
         </div>
         
         <button class="btn-action" onclick="generaLinkAmici()">Genera Link per gli Amici</button>
@@ -388,6 +393,25 @@
 <script>
     let tempoRimasto = 60, montepremiAttuale = 0, soluzioneSegreta = "", contatoreTimer, giocoAttivo = false, datiScelte = [], stepAttuale = 0, indiziConquistati = [];
 
+let pannelloVisibile = false;
+
+function toggleCensuraPannello() {
+    pannelloVisibile = !pannelloVisibile;
+    const pulsante = document.getElementById("btnMasterToggle");
+    const tipoInput = pannelloVisibile ? "text" : "password";
+    
+    if (pulsante) {
+        pulsante.innerText = pannelloVisibile ? "🔒 NASCONDI PAROLE" : "👁️ MOSTRA PAROLE";
+        pulsante.style.color = pannelloVisibile ? "var(--accent-pink)" : "var(--accent-gold)";
+    }
+    
+    document.getElementById("setSoluzione").type = tipoInput;
+    for (let i = 1; i <= 5; i++) {
+        document.getElementById(`c${i}_vera`).type = tipoInput;
+        document.getElementById(`c${i}_falsa`).type = tipoInput;
+    }
+}
+    
     // 📂 DATABASE ARCHIVIO: MODIFICA O AGGIUNGI QUI LE TUE PARTITE PRONTE
     const archivioSfide = {
         sfida1: {
